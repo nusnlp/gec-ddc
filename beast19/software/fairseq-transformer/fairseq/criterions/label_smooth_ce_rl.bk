@@ -11,7 +11,6 @@ from fairseq import utils
 
 from . import FairseqCriterion, register_criterion
 from rl import departureLossRL
-from rl_from_file import departureLossRL_from_file
 import torch
 
 
@@ -23,11 +22,8 @@ class LabelSmoothedCrossEntropyReinforceCriterion(FairseqCriterion):
 
         # self.kakao = None #Kakao_model()
         # self.edin = None #Edin_model()
-        from_file = True
-        if from_file:
-            self.loss_rl = departureLossRL_from_file(device=None, word_alphabet=None, vocab_size=None, args=args, src_dict=task.target_dictionary)  # no .cuda()??
-        else:
-            self.loss_rl = departureLossRL(device=None, word_alphabet=None, vocab_size=None, args=args)  # no .cuda()??
+
+        self.loss_rl = departureLossRL(device=None, word_alphabet=None, vocab_size=None, args=args)  # no .cuda()??
 
     @staticmethod
     def add_args(parser):
@@ -59,8 +55,8 @@ class LabelSmoothedCrossEntropyReinforceCriterion(FairseqCriterion):
         rl_loss, _ = self.compute_loss(model, net_output, sample, reduce=reduce)
         rl_loss = rl_loss*1000
         loss = loss + rl_loss
-        # print('loss: ', loss)
-        # #print('rl_loss: ', rl_loss)
+        #print('loss: ', loss)
+        #print('rl_loss: ', rl_loss)
         # loss = rl_loss
 
         sample_size = sample['target'].size(0) if self.args.sentence_avg else sample['ntokens']
