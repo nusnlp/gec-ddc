@@ -58,7 +58,7 @@ class LabelSmoothedCrossEntropyReinforceCriterion(FairseqCriterion):
 
         rl_loss, _ = self.compute_loss(model, net_output, sample, reduce=reduce)
         rl_loss = rl_loss*1000
-        loss = loss + rl_loss
+        loss =  loss + rl_loss
         # print('loss: ', loss)
         # #print('rl_loss: ', rl_loss)
         # loss = rl_loss

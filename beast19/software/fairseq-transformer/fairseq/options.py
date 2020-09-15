@@ -23,8 +23,18 @@ def get_training_parser(default_task='translation'):
     add_model_args(parser)
     add_optimization_args(parser)
     add_checkpoint_args(parser)
+    add_ddc_args(parser) # wj
     return parser
 
+def add_ddc_args(parser):
+    group = parser.add_argument_group("ddc")
+    # fmt: off
+    group.add_argument('--component-path', type=str, default='path_to_component',
+                       help='path of component files')
+
+    group.add_argument('--departure-args-path', nargs='+', default=['1', '2'])
+
+    return group
 
 def get_generation_parser(interactive=False, default_task='translation'):
     parser = get_parser('Generation', default_task)
